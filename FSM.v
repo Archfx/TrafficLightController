@@ -27,15 +27,66 @@ module FSM(
     output [2:0] interval,
     output start_timer,
     input expired,
-    input Prog_Sync
+    input Prog_Sync,
+	 input clk
     );
 	 
-	 localparam A=7'b0011000, //Main green
-					B=7'b0101000, //Main yellow
-					C=7'b1000010, //Side green
-					D=7'b1000100, //Side yellow
-					E=7'b1001001; //walk
+	 localparam tb = 4'b0110,
+					te = 4'b0011,
+					ty = 4'b0010;
+	 reg t = 2*tb;			
+	 reg [6:0] state;
+					
+	 localparam A = 7'b0011000, //Main green
+					B = 7'b0101000, //Main yellow
+					C = 7'b1000010, //Side green
+					D = 7'b1000100, //Side yellow
+					E = 7'b1001001; //walk
 	 
-
+	 always@(posedge clk) 
+		begin
+		if (t)
+			t=t-1;
+		else 
+		begin
+		case (state)
+			A: begin
+					state = B;
+					t=ty;
+				end
+			
+			B:	begin
+					state = C;
+					t=tb;
+				end
+			C: begin
+					state = D;
+					t=ty;
+				end
+			D: begin
+					state = A;
+					t=2*tb;
+				end
+			E: begin
+					state = C;
+					t=ty;
+				end
+			default : 
+					begin
+					state =A;
+					t=2*tb;
+					end
+		endcase
+		
+		if (state==B & WR) 
+								begin
+									state = E;
+									t=te;
+								end
+		end
+		
+		end
+	
+	
 
 endmodule
