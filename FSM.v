@@ -23,7 +23,7 @@ module FSM(
     input Sensor_Sync,
     input WR,
     output WR_Reset,
-    output [6:0] LEDs,
+    output reg [6:0] LEDs,
     output [2:0] interval,
     output start_timer,
     input expired,
@@ -34,8 +34,8 @@ module FSM(
 	 localparam tb = 4'b0110,
 					te = 4'b0011,
 					ty = 4'b0010;
-	 reg t = 2*tb;			
-	 reg [6:0] state;
+	 reg [3:0] t = 2*tb;			
+	 //reg [6:0] state;
 					
 	 localparam A = 7'b0011000, //Main green
 					B = 7'b0101000, //Main yellow
@@ -49,40 +49,41 @@ module FSM(
 			t=t-1;
 		else 
 		begin
-		case (state)
+		case (LEDs)
 			A: begin
-					state = B;
+					LEDs = B;
 					t=ty;
 				end
 			
 			B:	begin
-					state = C;
+					LEDs = C;
 					t=tb;
 				end
 			C: begin
-					state = D;
+					LEDs = D;
 					t=ty;
 				end
 			D: begin
-					state = A;
+					LEDs = A;
 					t=2*tb;
 				end
 			E: begin
-					state = C;
+					LEDs = C;
 					t=ty;
 				end
 			default : 
 					begin
-					state =A;
+					LEDs = A;
 					t=2*tb;
 					end
 		endcase
 		
-		if (state==B & WR) 
+		if (LEDs == B & WR) 
 								begin
-									state = E;
+									LEDs = E;
 									t=te;
 								end
+		
 		end
 		
 		end
