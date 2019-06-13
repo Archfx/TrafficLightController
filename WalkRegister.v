@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    18:10:53 06/13/2019 
+// Create Date:    16:59:48 06/13/2019 
 // Design Name: 
-// Module Name:    TrafficControllerMain 
+// Module Name:    WalkRegister 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,16 +18,16 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module TrafficControllerMain(
-    input Reset,
-    input Sensor,
-    input Walk_Request,
-    input Reprogram,
-    input [1:0] Time_Parameter_Selector,
-    input [3:0] Time_Value,
-    input Clk,
-    output [6:0] LEDs
+module WalkRegister(
+    input WR_Sync,
+    input WR_Reset,
+    output reg WR
     );
+	 
+	 always@(posedge WR_Sync)  WR = 1;
+	 always@(posedge WR_Reset) WR = 0;
+	 
+	 
 
 
 endmodule
