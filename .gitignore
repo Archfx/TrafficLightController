@@ -16,6 +16,8 @@ isim/
 *.prj
 *.bld
 *.cmd_log
+*.pdf
+*.docx
 
 # intermediate build files
 *.bgn

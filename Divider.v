@@ -23,16 +23,17 @@ module Divider(
 	 input rst,
     output reg oneHz_enable
     );
-	 reg [24:0]counter = 25'b00100011;
+	 
+	 localparam [24:0] hz_constant = 25'd10;
+	 reg [24:0]counter = hz_constant;
 	 always@(posedge clk)
 		begin
-			counter = counter - 1;
-			if (!counter) oneHz_enable = 1;
-		end
-	 always@(posedge rst)
-		begin
-			counter = 25'b00100011;
-			oneHz_enable = 0;
+			if (rst) counter = hz_constant;
+			else begin
+				counter = counter - 1;
+				oneHz_enable = (counter == 0);
+				if (!counter) counter = hz_constant;
+			end
 		end
 
 

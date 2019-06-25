@@ -28,6 +28,8 @@ module Timer_test;
 	reg [3:0] Value;
 	reg oneHz_enable;
 	reg start_timer;
+	reg clk;
+	reg Reset_Sync;
 
 	// Outputs
 	wire expired;
@@ -36,8 +38,10 @@ module Timer_test;
 	Timer uut (
 		.Value(Value), 
 		.oneHz_enable(oneHz_enable), 
-		.start_timer(start_timer), 
-		.expired(expired)
+		.start_timer(start_timer),
+		.clk(clk),
+		.expired(expired),
+		.Reset_Sync(Reset_Sync)
 	);
 
 	initial begin
@@ -45,23 +49,32 @@ module Timer_test;
 		Value = 0;
 		oneHz_enable = 0;
 		start_timer = 0;
-
+		Reset_Sync = 0;
 		// Wait 100 ns for global reset to finish
-		#100;
-      Value=4'b0100;
+		#5;
+      Value=4'b0110;
 		start_timer=1;
-		#100;
+		Reset_Sync = 1;
+		#5;
 		start_timer=0;
-		// Add stimulus here
+		Reset_Sync = 0;
+		#30;
+		Value=4'b1000;
+		
 
 	end
 	
 		initial begin 
 			oneHz_enable=0;
 			forever begin
-				#60 oneHz_enable = ~oneHz_enable;
+				#20 oneHz_enable = ~oneHz_enable;
 					  end 
 					end
-      
+      initial begin 
+			clk=0;
+			forever begin
+				#5 clk = ~clk;
+					  end 
+					end
 endmodule
 

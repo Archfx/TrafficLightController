@@ -18,25 +18,26 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-// LED sequance : [Rm,Ym,Gm,Rs,Ys,Gs,Walk]
+// LED sequence  : [Rm,Ym,Gm,Rs,Ys,Gs,Walk]
 module FSM(
     input Sensor_Sync,
     input WR,
-    output WR_Reset,
+    output reg WR_Reset,
     output reg [6:0] LEDs,
-    output [2:0] interval,
-    output start_timer,
+    output reg [1:0] interval,
+    output reg start_timer,
     input expired,
     input Prog_Sync,
+	 input Reset_Sync,
 	 input clk
     );
 	 
-	 localparam tb = 4'b0110,
-					te = 4'b0011,
-					ty = 4'b0010;
-	 reg [3:0] t = 2*tb;			
-	 //reg [6:0] state;
-					
+	 localparam tb = 2'b00,//tBASE
+					te = 2'b01,//tEXT
+					ty = 2'b10,//tYEL
+					tbx2 = 2'b11;//2*tBASE
+	 reg deviate;
+	 reg senseOneTime;
 	 localparam A = 7'b0011000, //Main green
 					B = 7'b0101000, //Main yellow
 					C = 7'b1000010, //Side green
@@ -45,44 +46,86 @@ module FSM(
 	 
 	 always@(posedge clk) 
 		begin
-		if (t)
-			t=t-1;
-		else 
-		begin
-		case (LEDs)
-			A: begin
-					LEDs = B;
-					t=ty;
-				end
-			
-			B:	begin
-					LEDs = C;
-					t=tb;
-				end
-			C: begin
-					LEDs = D;
-					t=ty;
-				end
-			D: begin
-					LEDs = A;
-					t=2*tb;
-				end
-			E: begin
-					LEDs = C;
-					t=ty;
-				end
-			default : 
-					begin
-					LEDs = A;
-					t=2*tb;
-					end
-		endcase
-		
-		if (LEDs == B & WR) 
-								begin
-									LEDs = E;
-									t=te;
+		if (Prog_Sync || Reset_Sync) begin
+			LEDs = A;
+			interval = tbx2;
+			WR_Reset = 0;
+			start_timer = 1;
+			senseOneTime = 1;
+			end
+		if (expired) 
+			begin
+				case (LEDs)
+					A: begin
+							if (deviate) begin
+								if (Sensor_Sync & senseOneTime)begin
+									LEDs = A;
+									interval = te;
+									start_timer = 1;
+									senseOneTime = 0;
+ 								end
+								else begin
+									LEDs = A;
+									interval = tb;
+									start_timer = 1;
 								end
+								deviate = 0;
+							end
+							
+							else begin	
+								LEDs = B;
+								interval = ty;
+								start_timer = 1;
+							end
+						end
+					
+					B:	begin
+							if (WR) begin
+								LEDs = E;
+								interval = te;
+								start_timer = 1;
+								WR_Reset = 1;
+							end
+							else begin
+								LEDs = C;
+								interval = tb;
+								start_timer = 1;
+							end
+						end
+					C: begin
+							if (Sensor_Sync & senseOneTime) begin
+								LEDs = C;
+								interval = te;
+								start_timer = 1;
+								senseOneTime = 0;
+							end
+							else begin
+								LEDs = D;
+								interval = ty;
+								start_timer = 1;
+								senseOneTime = 1;
+							end
+						end
+					D: begin
+							LEDs = A;
+							interval = tb;
+							start_timer = 1;
+							deviate = 1;
+							senseOneTime = 1;
+						end
+					E: begin
+							LEDs = C;
+							interval = ty;
+							start_timer = 1;
+							WR_Reset = 0;
+						end
+					default : 
+							begin
+							LEDs = A;
+							interval = tb;
+							start_timer = 1;
+							end
+				endcase
 		
 		end
 		
