@@ -29,7 +29,7 @@ module Timer(
 	 
 	 
 	 reg [3:0] time_left;
-	 reg change =1;
+	 reg change =1; // Since Value is set by the time parameter module Value should be assinged to time_left after a one clock cycle 
 	 
 	always@(posedge clk) begin
 		

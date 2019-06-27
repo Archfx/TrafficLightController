@@ -36,8 +36,10 @@ module FSM(
 					te = 2'b01,//tEXT
 					ty = 2'b10,//tYEL
 					tbx2 = 2'b11;//2*tBASE
-	 reg deviate;
-	 reg senseOneTime;
+					
+	 reg deviate; // deviate from normal routine (WR and sensor_sync)
+	 reg senseOneTime; // Trigger sensor_sync only one time during single cycle
+	 
 	 localparam A = 7'b0011000, //Main green
 					B = 7'b0101000, //Main yellow
 					C = 7'b1000010, //Side green
