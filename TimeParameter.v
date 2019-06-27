@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module TimeParameter(
+ module TimeParameter(
     input [1:0] Selector,
     input [3:0] Time_value,
     input Prog_Sync,
@@ -45,17 +45,18 @@ module TimeParameter(
 	// Times resets when the selector input is 00. Otherwise the values 
 	// on the time_value input are assigned to the tb, te, ty respectively.
 	// Since register stores the values selected values will be saved untill selector becomes 00.
-	
-	case (Selector) 
-		2'b00: begin
-					tb = 4'b0110; // interval value = 00
-				   te = 4'b0011; // interval value = 01
-				   ty = 4'b0010; // interval value = 10
-				 end
-		2'b01: tb = Time_value;
-		2'b10: te = Time_value;
-		2'b11: ty = Time_value;
-	endcase
+	if (Prog_Sync) begin
+		case (Selector) 
+			2'b00: begin
+						tb = 4'b0110; // interval value = 00
+						te = 4'b0011; // interval value = 01
+						ty = 4'b0010; // interval value = 10
+					 end
+			2'b01: tb = Time_value;
+			2'b10: te = Time_value;
+			2'b11: ty = Time_value;
+		endcase
+	end
 		
 	end
 

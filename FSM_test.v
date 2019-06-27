@@ -38,7 +38,7 @@ module FSM_test;
 	wire [6:0] LEDs;
 	wire [1:0] interval;
 	wire start_timer;
-
+	
 	// Instantiate the Unit Under Test (UUT)
 	FSM uut (
 		.Sensor_Sync(Sensor_Sync), 

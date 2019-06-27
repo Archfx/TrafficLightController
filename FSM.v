@@ -46,7 +46,9 @@ module FSM(
 	 
 	 always@(posedge clk) 
 		begin
-		if (Prog_Sync || Reset_Sync) begin
+		
+		start_timer = 0;
+		if (Prog_Sync | Reset_Sync) begin
 			LEDs = A;
 			interval = tbx2;
 			WR_Reset = 0;
@@ -128,7 +130,6 @@ module FSM(
 				endcase
 		
 		end
-		
 		end
 	
 	

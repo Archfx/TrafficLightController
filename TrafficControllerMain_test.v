@@ -35,7 +35,12 @@ module TrafficControllerMain_test;
 
 	// Outputs
 	wire [6:0] LEDs;
-
+	wire start_timer;
+	wire Reset_Sync;
+	wire expired;
+	wire oneHz_enable;
+	wire [3:0] value;
+	wire [1:0] interval;
 	// Instantiate the Unit Under Test (UUT)
 	TrafficControllerMain uut (
 		.Reset(Reset), 
@@ -45,7 +50,13 @@ module TrafficControllerMain_test;
 		.Time_Parameter_Selector(Time_Parameter_Selector), 
 		.Time_Value(Time_Value), 
 		.clk(clk), 
-		.LEDs(LEDs)
+		.LEDs(LEDs),
+		.start_timer(start_timer),
+		.Reset_Sync(Reset_Sync),
+		.expired(expired),
+		.oneHz_enable(oneHz_enable),
+		.value(value),
+		.interval(interval)
 	);
 
 	initial begin
@@ -57,12 +68,14 @@ module TrafficControllerMain_test;
 		Time_Parameter_Selector = 0;
 		Time_Value = 0;
 		clk = 0;
-
+		#20
 		// Wait 100 ns for global reset to finish
 		#5
 		Reset = 1;
 		#5
 		Reset = 0;
+		
+
         
 		// Add stimulus here
 
@@ -73,6 +86,13 @@ module TrafficControllerMain_test;
 	 #5 clk = ~clk;
 	end 
 	end
+	
+/*			initial begin 
+			expired=0;
+			forever begin
+				#20 expired = ~expired;
+					  end 
+					end*/
       
 endmodule
 

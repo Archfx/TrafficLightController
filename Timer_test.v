@@ -52,14 +52,14 @@ module Timer_test;
 		Reset_Sync = 0;
 		// Wait 100 ns for global reset to finish
 		#5;
-      Value=4'b0110;
+      Value=4'b1100;
 		start_timer=1;
 		Reset_Sync = 1;
 		#5;
 		start_timer=0;
 		Reset_Sync = 0;
 		#30;
-		Value=4'b1000;
+		//Value=4'b1000;
 		
 
 	end

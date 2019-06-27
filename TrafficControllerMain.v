@@ -26,16 +26,28 @@ module TrafficControllerMain(
     input [1:0] Time_Parameter_Selector,
     input [3:0] Time_Value,
     input clk,
-    output [6:0] LEDs
+    output [6:0] LEDs,
+	 output start_timer,
+	 output Reset_Sync,
+	 output expired,
+	 output oneHz_enable,
+	 output [3:0] value,
+	 output [1:0] interval
     );
 	 
-	Divider Divider (
-		.rst(rst),
+	 wire [1:0] interval;
+	 wire [1:0] Selector;
+	 wire [3:0] value;
+	 wire Reset_Sync,oneHz_enable,Sensor_Sync,WR,WR_Reset,start_timer,expired,Prog_Sync,
+			WR_Sync;
+	 
+	Divider divider (
+		.rst(Reset_Sync),
 		.clk(clk), 
 		.oneHz_enable(oneHz_enable)
 	);
 	
-	FSM FSM (
+	FSM fsm (
 		.Sensor_Sync(Sensor_Sync), 
 		.WR(WR), 
 		.WR_Reset(WR_Reset), 
@@ -48,7 +60,7 @@ module TrafficControllerMain(
 		.Reset_Sync(Reset_Sync)
 	);
 	
-	Synchronizer Synchronizer (
+	Synchronizer synchronizer (
 		.Reset(Reset), 
 		.Sensor(Sensor), 
 		.Walk_Request(Walk_Request), 
@@ -61,17 +73,17 @@ module TrafficControllerMain(
 	);
 
 
-	TimeParameter TimeParameter (
-			.Selector(Selector), 
-			.Time_value(Time_value), 
+	TimeParameter timeParameter (
+			.Selector(Time_Parameter_Selector), 
+			.Time_value(Time_Value), 
 			.Prog_Sync(Prog_Sync), 
 			.interval(interval), 
 			.clk(clk), 
 			.value(value)
 		);
 		
-	Timer Timer (
-		.Value(Value), 
+	Timer timer (
+		.Value(value), 
 		.oneHz_enable(oneHz_enable), 
 		.start_timer(start_timer),
 		.clk(clk),
@@ -79,7 +91,7 @@ module TrafficControllerMain(
 		.Reset_Sync(Reset_Sync)
 	);
 	
-	WalkRegister WalkRegister (
+	WalkRegister walkRegister (
 		.WR_Sync(WR_Sync), 
 		.WR_Reset(WR_Reset),  
 		.WR(WR)
