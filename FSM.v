@@ -95,6 +95,7 @@ module FSM(
 								interval = tb;
 								start_timer = 1;
 							end
+							senseOneTime = 1;
 						end
 					C: begin
 							if (Sensor_Sync & senseOneTime) begin

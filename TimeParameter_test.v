@@ -47,7 +47,7 @@ module TimeParameter_test;
 	initial begin
 		// Initialize Inputs
 		Selector = 2'b00;
-		Time_value = 4'b1111;
+		Time_value = 4'b0000;
 		Prog_Sync = 0;
 		interval = 2'b00;
 		
@@ -59,6 +59,12 @@ module TimeParameter_test;
 		#10;
 		 Selector = 2'b01;
 		 interval =2'b00;
+		 
+		#5
+		Prog_Sync = 1;
+		#5
+		Selector = 2'b01;
+		Time_value = 4'b1111;
 
 	end
 	

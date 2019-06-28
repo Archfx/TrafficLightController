@@ -22,7 +22,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Run this module for at least 0.001ns
+// Run this module for at least 0.004ms
 
 module TrafficControllerMain_test;
 
@@ -78,6 +78,14 @@ module TrafficControllerMain_test;
 		Reset = 1;
 		#5
 		Reset = 0;
+		#100
+		//walk request
+		//Walk_Request = 1;
+		//#20
+		//Walk_Request = 0;
+		// Vehicle sensor request
+		//Sensor = 1;
+		
 		
 
         

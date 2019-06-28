@@ -57,7 +57,7 @@ module FSM_test;
 		// Initialize Inputs
 		
 		// Normal operation
-		Sensor_Sync = 0;
+		/*Sensor_Sync = 0;
 		WR = 0;
 		expired = 0;
 		Prog_Sync = 0;
@@ -94,14 +94,14 @@ module FSM_test;
 		#5
 		expired = 1;
 		#5;
-		expired = 0;
+		expired = 0;*/
 		
 		
 		
 		// Test Walk request
 		
 		
-		Sensor_Sync = 0;
+		/*Sensor_Sync = 0;
 		WR = 0;
 		expired = 0;
 		Prog_Sync = 0;
@@ -139,7 +139,7 @@ module FSM_test;
 		#5
 		expired = 1;
 		#5;
-		expired = 0; 
+		expired = 0; */	
       
 		// Test sensor input
 		
