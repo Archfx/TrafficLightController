@@ -128,6 +128,7 @@ module FSM(
 							begin
 							LEDs = A;
 							interval = tb;
+							deviate = 1;
 							start_timer = 1;
 							end
 				endcase
