@@ -67,7 +67,7 @@ module Timer_test;
 		initial begin 
 			oneHz_enable=0;
 			forever begin
-				#20 oneHz_enable = ~oneHz_enable;
+				#5 oneHz_enable = ~oneHz_enable;
 					  end 
 					end
       initial begin 

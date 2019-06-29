@@ -45,13 +45,8 @@ module Timer(
 			change =0;
 		end
 		expired = 0;
-				
-																		
-	end
-
-
-	always@(posedge oneHz_enable) begin
-	
+		
+		if (oneHz_enable) begin
 			if (!time_left) begin
 				expired = 1;
 				end
@@ -59,10 +54,11 @@ module Timer(
 			else begin
 			time_left = time_left - 1;
 			end
-			
+		end
+				
+																		
 	end
-	
-		
+
 
 
 endmodule

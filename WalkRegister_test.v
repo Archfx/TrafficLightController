@@ -34,7 +34,7 @@ module WalkRegister_test;
 	// Instantiate the Unit Under Test (UUT)
 	WalkRegister uut (
 		.WR_Sync(WR_Sync), 
-		.WR_Reset(WR_Reset),  
+		.WR_Reset(WR_Reset),
 		.WR(WR)
 	);
 
@@ -47,7 +47,7 @@ module WalkRegister_test;
 		// Wait 100 ns for global reset to finish
 		#100;
       WR_Sync = 1;
-		#5;
+		#10;
 		WR_Sync = 0;
 		#500;
 		WR_Reset = 1;
@@ -55,6 +55,8 @@ module WalkRegister_test;
 		// Add stimulus here
 
 	end
+	
+
       
 endmodule
 

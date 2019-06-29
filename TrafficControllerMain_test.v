@@ -37,7 +37,7 @@ module TrafficControllerMain_test;
 
 	// Outputs
 	wire [6:0] LEDs;
-	/*wire start_timer;
+	/*wire start_timer; //for visual purposes only
 	wire Reset_Sync;
 	wire expired;
 	wire oneHz_enable;
@@ -54,7 +54,7 @@ module TrafficControllerMain_test;
 		.Time_Parameter_Selector(Time_Parameter_Selector), 
 		.Time_Value(Time_Value), 
 		.clk(clk), 
-		.LEDs(LEDs)/*,
+		.LEDs(LEDs)/*, //Visual pourpose only
 		.start_timer(start_timer),
 		.Reset_Sync(Reset_Sync),
 		.expired(expired),
@@ -78,7 +78,7 @@ module TrafficControllerMain_test;
 		Reset = 1;
 		#5
 		Reset = 0;
-		#100
+		//#100
 		//walk request
 		//Walk_Request = 1;
 		//#20

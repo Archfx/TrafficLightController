@@ -27,8 +27,6 @@ module TrafficControllerMain(
     input [3:0] Time_Value,
     input clk,
     output [6:0] LEDs/*,
-	 output start_timer, //for visual purposes only
-	 output Reset_Sync,	 //for visual purposes only
 	 output expired,      //for visual purposes only
 	 output oneHz_enable, //for visual purposes only
 	 output [3:0] value,  //for visual purposes only
